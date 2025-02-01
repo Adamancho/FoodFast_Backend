@@ -110,4 +110,9 @@ public class DeliveryPersistence {
             System.out.println("Pedido actualizado exitosamente.");
         }
     }
+
+    // Eliminar delivery consiste en actualizar el estado del delivery, no es borrado fisico, sino logico
+    public void deleteDelivery(Long deliveryId) throws SQLException {
+      this.updateDeliveryState(deliveryId, 3L); //3L es el estado de eliminado, por tanto es un borrado logico y no fisico
+    }
 }
