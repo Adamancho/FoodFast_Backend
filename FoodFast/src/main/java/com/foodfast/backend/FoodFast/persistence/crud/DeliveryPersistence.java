@@ -6,12 +6,14 @@ import java.util.List;
 
 public class DeliveryPersistence {
 
-    String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
+    private String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
+    private String user = "root";
+    private String password = "Discord18";
 
         public List<Delivery> getAllDeliveries(){
             List<Delivery> result = new ArrayList<>();
 
-            try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "Discord18");
+            try (Connection conn = DriverManager.getConnection(connectionUrl, user, password);
                  PreparedStatement ps = conn.prepareStatement("SELECT * FROM domicilio;");
                  ResultSet rs = ps.executeQuery()) {
 
@@ -67,5 +69,45 @@ public class DeliveryPersistence {
             System.out.println("error en la conexion con DB"+e);
         }
         return result;
+    }
+    public void saveDelivery(Delivery delivery) throws SQLException {
+        String sql = "INSERT INTO domicilio (nombre_cliente, direccion, pedido, precio, metododepago, id_estado) VALUES (?, ?, ?, ?, ?, ?)";
+
+        Connection conn = DriverManager.getConnection(connectionUrl, user, password);
+             PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, delivery.getClientName());
+            ps.setString(2, delivery.getAddress());
+            ps.setString(3, delivery.getOrder());
+            ps.setLong(4, delivery.getPrice());
+            ps.setString(5, delivery.getPaymentMethod());
+
+            List<State> states = this.getAllState();
+            for (State i : states){
+                if(i.getState().equals(delivery.getState())){
+                    ps.setLong(6, i.getId());
+                }
+            }
+
+
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Pedido guardado exitosamente.");
+            }
+    }
+
+    public void updateDeliveryState(Long deliveryId, Long stateId) throws SQLException {
+        String sql = "UPDATE domicilio SET id_estado = ? WHERE id = ?";
+
+        Connection conn = DriverManager.getConnection(connectionUrl, user, password);
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setLong(1, stateId);
+        ps.setLong(2, deliveryId);
+
+        int rowsAffected = ps.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Pedido actualizado exitosamente.");
+        }
     }
 }
