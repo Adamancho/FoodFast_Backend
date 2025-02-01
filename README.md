@@ -2,8 +2,7 @@
 
 Se tiene que crear la base de datos bajo el siguiente Script
 
-'''sql
-
+``` sql
 CREATE DATABASE `tabla` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 CREATE TABLE `domicilio` (
@@ -37,4 +36,4 @@ CREATE TABLE `historico_estados` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 
-'''
+``` 
