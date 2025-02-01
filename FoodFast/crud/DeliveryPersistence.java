@@ -111,4 +111,9 @@ public class DeliveryPersistence {
             System.out.println("Pedido actualizado exitosamente.");
         }
     }
+
+    // Este metodo marca como eliminado en domicilio en la base de datos, es un borrado lógico, no es un borrado fisico
+    public void deleteDelivery(Long deliveryId) throws SQLException {
+            this.updateDeliveryState(deliveryId, "3"); //3 es el estado de eliminado en la base de datos
+    }
 }
