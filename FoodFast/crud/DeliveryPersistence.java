@@ -70,6 +70,7 @@ public class DeliveryPersistence {
         }
         return result;
     }
+
     public void saveDelivery(Delivery delivery) throws SQLException {
         String sql = "INSERT INTO domicilio (nombre_cliente, direccion, pedido, precio, metododepago, id_estado) VALUES (?, ?, ?, ?, ?, ?)";
 
