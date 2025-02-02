@@ -15,18 +15,21 @@ public class DeliveryController {
 
     DeliveryPersistence deliveryPersistence = new DeliveryPersistence();
 
+    // Con este EndPoint se obtiene la lista de domicilios registrados en la BD
     @GetMapping("/delivery")
     public ResponseEntity<?> getAllDeliveries() {
         List<Delivery> result = deliveryPersistence.getAllDeliveries();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // EndPoint para la creacion de pedidos
     @PostMapping("/delivery")
     public ResponseEntity<?> createAllDeliveries(@RequestBody Delivery delivery) throws SQLException {
         deliveryPersistence.saveDelivery(delivery);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    // Se crea el servicio de actualizacion de estado del pedido
     @PutMapping("/delivery/{id}")
     public ResponseEntity<?> updatedDeliveryState(@RequestBody Map<String, Long> stateId, @PathVariable("id") Long deliveryId) throws SQLException {
         System.out.println(deliveryId);
