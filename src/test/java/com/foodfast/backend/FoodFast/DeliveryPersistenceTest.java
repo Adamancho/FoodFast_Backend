@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveryPersistenceTest {
@@ -20,6 +21,7 @@ public class DeliveryPersistenceTest {
     public static void setUp() throws SQLException {
         // Eliminar todos los datos de la base de datos para preparar el entorno de las pruebas
         deleteAllDeliveries();
+        createStates();
         deliveryTest1 = new Delivery();
         deliveryTest2 = new Delivery();
 
@@ -39,6 +41,8 @@ public class DeliveryPersistenceTest {
         deliveryTest2.setAddress("Cll 3A#21-05");
         deliveryTest2.setClientName("Marta Lopez");
     }
+
+
 
     @Test
     @DisplayName("1.Caso de uso: crear nuevo domicilio")
@@ -107,12 +111,52 @@ public class DeliveryPersistenceTest {
 
         String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
 
-        Connection conn = DriverManager.getConnection(connectionUrl, "root", "Discord18");
+        Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
         PreparedStatement ps = conn.prepareStatement(sql);
 
         int rowsAffected = ps.executeUpdate();
         if (rowsAffected > 0) {
-            System.out.println("Pedido actualizado exitosamente.");
+            System.out.println("Pedidos eliminados exitosamente.");
         }
+    }
+
+
+    private static void createStates() throws SQLException {
+        String sql = "DELETE from estados";
+
+        String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
+
+        Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        int rowsAffected = ps.executeUpdate();
+        if (rowsAffected > 0) {
+            System.out.println("Estados eliminados exitosamente.");
+        }
+
+
+         sql = "INSERT INTO estados (id, estado) VALUES (?, ?) ;";
+
+         connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
+
+         conn = DriverManager.getConnection(connectionUrl, "root", "");
+        List<String> statesToCreate = new ArrayList<>(List.of("Activo", "Entregado", "Eliminado"));
+        int counter = 0;
+        for (String currentState: statesToCreate) {
+            counter = counter + 1;
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, counter);
+            ps.setString(2, currentState);
+            rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Estados eliminados exitosamente. " + currentState);
+            }
+        }
+
+
+
+
+
+
     }
 }

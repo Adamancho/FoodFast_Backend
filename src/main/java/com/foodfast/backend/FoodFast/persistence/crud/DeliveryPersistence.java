@@ -8,7 +8,7 @@ public class DeliveryPersistence {
 
     private String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
     private String user = "root";
-    private String password = "Discord18";
+    private String password = "";
 
         public List<Delivery> getAllDeliveries(){
             List<Delivery> result = new ArrayList<>();
@@ -52,7 +52,7 @@ public class DeliveryPersistence {
     public List<State> getAllState(){
         List<State> result = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "Discord18");
+        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
              PreparedStatement ps = conn.prepareStatement("SELECT * FROM estados;");
              ResultSet rs = ps.executeQuery()) {
 
