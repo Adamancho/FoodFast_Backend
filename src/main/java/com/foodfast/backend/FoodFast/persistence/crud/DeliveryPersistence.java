@@ -6,9 +6,13 @@ import java.util.List;
 
 public class DeliveryPersistence {
 
-    private String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
-    private String user = "root";
-    private String password = "";
+    //private String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
+    //private String connectionUrl = "jdbc:mysql://smooth-drive-450400-t7:us-central1:test-bcknd-ff-0:3306/tabla?socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false";
+    private String connectionUrl = "jdbc:mysql://34.28.157.52:3306/tabla";
+
+    //private String user = "root";
+    private String user = System.getenv("USER_DB");
+    private String password = System.getenv("MYSQL_PASSWORD");
 
         public List<Delivery> getAllDeliveries(){
             List<Delivery> result = new ArrayList<>();
@@ -52,7 +56,7 @@ public class DeliveryPersistence {
     public List<State> getAllState(){
         List<State> result = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
+        try (Connection conn = DriverManager.getConnection(connectionUrl,  user, password);
              PreparedStatement ps = conn.prepareStatement("SELECT * FROM estados;");
              ResultSet rs = ps.executeQuery()) {
 

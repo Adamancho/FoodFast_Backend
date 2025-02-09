@@ -21,7 +21,7 @@ public class DeliveryPersistenceTest {
     public static void setUp() throws SQLException {
         // Eliminar todos los datos de la base de datos para preparar el entorno de las pruebas
         deleteAllDeliveries();
-        createStates();
+        //createStates();
         deliveryTest1 = new Delivery();
         deliveryTest2 = new Delivery();
 
@@ -109,9 +109,9 @@ public class DeliveryPersistenceTest {
     public static void deleteAllDeliveries() throws SQLException {
         String sql = "DELETE from domicilio";
 
-        String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
+        String connectionUrl = "jdbc:mysql://34.28.157.52:3306/tabla";
 
-        Connection conn = DriverManager.getConnection(connectionUrl, "root", "");
+        Connection conn = DriverManager.getConnection(connectionUrl, System.getenv("USER_DB"), System.getenv("MYSQL_PASSWORD"));
         PreparedStatement ps = conn.prepareStatement(sql);
 
         int rowsAffected = ps.executeUpdate();
