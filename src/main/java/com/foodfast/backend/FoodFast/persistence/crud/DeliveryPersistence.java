@@ -1,5 +1,8 @@
 package com.foodfast.backend.FoodFast.persistence.crud;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +11,11 @@ public class DeliveryPersistence {
 
     //private String connectionUrl = "jdbc:mysql://localhost:3306/tabla?serverTimezone=UTC";
     //private String connectionUrl = "jdbc:mysql://smooth-drive-450400-t7:us-central1:test-bcknd-ff-0:3306/tabla?socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false";
-    private String connectionUrl = "jdbc:mysql://34.28.157.52:3306/tabla";
+    //private String connectionUrl = "jdbc:mysql://34.28.157.52:3306/tabla";
+    private Logger logger = LoggerFactory.getLogger(DeliveryPersistence.class);
 
     //private String user = "root";
+    private String connectionUrl = System.getenv("MYSQL_URL");
     private String user = System.getenv("USER_DB");
     private String password = System.getenv("MYSQL_PASSWORD");
 
@@ -49,6 +54,7 @@ public class DeliveryPersistence {
                 }
             } catch (SQLException e) {
                 System.out.println("error en la conexion con DB"+e);
+                logger.error("error en la conexion con DB", e);
             }
             return result;
         }
